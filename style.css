@@ -1,12 +1,13 @@
 /*=========== GERAL ===================================*/
-*{ /*seletor universal*/
+* {
+  /*seletor universal*/
   margin: 0; /*deixa todas as margens com padrão 0*/
+  padding: 0; /*deixa todas os paddings com padrão 0*/
   box-sizing: border-box; /*tamanho da caixa começa a contar a partir da borda*/
 }
 
 :root {
-
-  --primary-color: #00856F; /*variável para cor primária*/
+  --primary-color: #00856f; /*variável para cor primária*/
   --headline: #212529;
   --paragraph: #495057;
 
@@ -18,32 +19,46 @@
   --nav-height: 7.2rem;
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   font-family: 'DM Sans';
   font-size: 1.6rem; /*16 px*/
+
   text-align: center;
+
+  overflow: overlay; /*Aba de rolagem não soma no tamanho, fica por cima*/
 }
 
-.wrapper { /*classe "embrulho"*/
+.wrapper {
+  /*classe "embrulho"*/
   width: 37.5rem;
-  margin-inline: auto; 
+  margin-inline: auto;
   /*
   margin-inline = margin-right + margin-left
   margin-right = preenche as margens da esquerda com espaçamento em branco
   margin-left = preenche as margens da direita com espaçamento em branco
-  */  
+  */
   padding-inline: 2.4rem;
+}
+
+ul {
+  list-style: none; /*remove o estilo padrão de todas as listas*/
 }
 
 /*=========== HEADER ===================================*/
 
-header { 
+header {
   margin-top: calc(4.1rem + var(--nav-height));
 }
 
 header::before {
-  content: "";
-  width: 100vw; /*vw (tamanho total da tela)*/
+  content: '';
+  width: 100%; /*(tamanho total da tela)*/
   height: calc(108rem + var(--nav-height));
   background-color: var(--brand-light);
   display: block;
@@ -92,7 +107,7 @@ header button {
   color: white;
   font-size: 1.4rem;
   font-weight: 700;
-  text-transform: uppercase; /*Deixar texto em caixa alta*/  
+  text-transform: uppercase; /*Deixar texto em caixa alta*/
 
   display: flex; /*deixa os elementos(caixas) que estão dentro do button flexiveis para serem alterados*/
   align-items: center; /*Deixa os itens alinhados*/
@@ -108,25 +123,24 @@ header img {
   display: block;
   margin-inline: auto;
   object-position: 0 2rem;
-
 }
 
-.stats {  
-width: 32.7rem;
-padding-block: 4rem; /*padding eixo y (pra n usar top e bottom, faz em uma só)*/
-margin-inline: auto; /*margem eixo x (pra n usar left e right, faz em uma só)*/
+.stats {
+  width: 32.7rem;
+  padding-block: 4rem; /*padding eixo y (pra n usar top e bottom, faz em uma só)*/
+  margin-inline: auto; /*margem eixo x (pra n usar left e right, faz em uma só)*/
 
-background-color: var(--brand-beige);
-border: 1px solid var(--brand-light);
-border-radius: 0.6rem;
+  background-color: var(--brand-beige);
+  border: 1px solid var(--brand-light);
+  border-radius: 0.6rem;
 
-display: flex;
-flex-direction: column;
-justify-content: center;
-gap: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6rem;
 }
 
-.stat h3{
+.stat h3 {
   font-size: 4.8rem;
   color: var(--headline);
   line-height: 130%;
@@ -145,8 +159,6 @@ gap: 6rem;
 
 nav {
   display: flex; /*conteudo flexivel*/
-  align-items: center; /*alinha conteudo no centro*/
-  justify-content: space-between; /*Deixa o espaço necessário pra ficar um conteúdo pra cada lado*/
 
   height: var(--nav-height);
 
@@ -154,4 +166,126 @@ nav {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+}
+
+nav .wrapper {
+  display: flex;
+  align-items: center; /*alinha conteudo no centro*/
+  justify-content: space-between; /*Deixa o espaço necessário pra ficar um conteúdo pra cada lado*/
+}
+
+nav.scroll {
+  background-color: var(--primary-color);
+  width: 100vw;
+}
+
+nav.scroll svg:nth-child(1) path {
+  /*nav.scroll possui 2 paths, usando o ":nth-child(1)", ele só altera o primeiro filho que se enquadrar na pesquisa*/
+  fill: white;
+}
+
+nav.scroll button path {
+  stroke: white;
+}
+
+nav button {
+  background: none;
+  border: none;
+  cursor: pointer; /*maozinha muda ao por cursor nele*/
+}
+
+/*========= MENU-EXPANDED ===============================*/
+body.menu-expanded {
+  overflow: hidden; /*remove scroll do site*/
+}
+
+body.menu-expanded > :not(nav) {
+  /*Seleciona todos os conteúdos de body.menu-expanded menos a tag nav*/
+  display: none;
+}
+
+.menu,
+.close-menu,
+body.menu-expanded .open-menu {
+  opacity: 0; /*Deixa opacidade em zero*/
+  visibility: hidden; /*esconde elemento (não consegue clicar em links)*/
+}
+
+body.menu-expanded .menu,
+body.menu-expanded .close-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.menu-expanded .menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--primary-color);
+
+  width: 100vw;
+  height: 100vh;
+
+  padding-top: var(--nav-height);
+}
+
+body.menu-expanded nav {
+  position: relative;
+}
+
+.menu ul:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+  gap: 4.8rem;
+
+  margin-top: 6rem;
+
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 3.1rem;
+}
+
+.menu ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.menu .button {
+  background-color: white;
+  border-radius: 4rem;
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 2.3rem;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  color: var(--primary-color);
+
+  display: inline-block;
+  padding: 1.6rem 3.2rem;
+
+  margin-top: 4.8rem;
+  margin-bottom: 8rem;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3.2rem;
+}
+
+body.menu-expanded .logo,
+body.menu-expanded nav button {
+  position: relative;
+  z-index: 10;
+}
+
+body.menu-expanded .logo path {
+  /*nav.scroll possui 2 paths, usando o ":nth-child(1)", ele só altera o primeiro filho que se enquadrar na pesquisa*/
+  fill: white;
+}
+
+body.menu-expanded button path {
+  stroke: white;
 }
